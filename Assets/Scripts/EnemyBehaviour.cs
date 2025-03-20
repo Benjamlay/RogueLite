@@ -23,7 +23,7 @@ public class EnemyBehaviour : MonoBehaviour
     {
         
         //InvokeRepeating("Chase", 0, 0.5f);
-        InvokeRepeating("Flee", 0f, 0.2f);
+        InvokeRepeating("Patrol", 0f, 2f);
     }
 
     
@@ -40,7 +40,7 @@ public class EnemyBehaviour : MonoBehaviour
     void Patrol()
     {
         Vector2 randomOffset = Random.insideUnitCircle * patrolRadius;
-        targetPosition = (Vector2)transform.position + randomOffset;
+        targetPosition = (Vector2)transform.position + (Vector2)transform.right + randomOffset;
         Debug.Log("Nouveau point de patrouille : " + targetPosition);
         
         _enemyMotion.SetDestination(randomOffset);
