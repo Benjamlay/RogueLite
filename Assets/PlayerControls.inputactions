@@ -11,7 +11,7 @@
                     "id": "a7a6bf55-4016-4b14-81e1-9715cd3840db",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press(behavior=2)",
                     "initialStateCheck": false
                 },
                 {
@@ -20,7 +20,7 @@
                     "id": "456aac2f-29c9-4525-9b12-af05ae9ad9a0",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press(behavior=2)",
                     "initialStateCheck": false
                 },
                 {
@@ -29,7 +29,7 @@
                     "id": "b0d59a14-ee5f-4d38-bfd6-ec1253f0899e",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press(behavior=2)",
                     "initialStateCheck": false
                 },
                 {
@@ -38,7 +38,7 @@
                     "id": "4442dba4-693b-4e5b-97f4-5b3dda7d3131",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press(behavior=2)",
                     "initialStateCheck": false
                 }
             ],

@@ -23,7 +23,7 @@ public class EnemyBehaviour : MonoBehaviour
     {
         
         //InvokeRepeating("Chase", 0, 0.5f);
-        InvokeRepeating("Patrol", 0f, 2f);
+        InvokeRepeating("Flee", 0f, 0.2f);
     }
 
     
@@ -44,6 +44,11 @@ public class EnemyBehaviour : MonoBehaviour
         Debug.Log("Nouveau point de patrouille : " + targetPosition);
         
         _enemyMotion.SetDestination(randomOffset);
-        
+    }
+
+    void Flee()
+    {
+        Vector2 Destination = (transform.position - Player.position).normalized;
+        _enemyMotion.SetDestination(Destination * 10);
     }
 }

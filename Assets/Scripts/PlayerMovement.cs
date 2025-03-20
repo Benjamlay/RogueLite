@@ -37,10 +37,12 @@ public class PlayerMovement : MonoBehaviour
     public void MoveLeft(InputAction.CallbackContext context)
     {
         _MoveLeft = context.ReadValueAsButton();
+        transform.localScale = new Vector3(-1, 1, 1);
     }
     public void MoveRight(InputAction.CallbackContext context)
     {
         _MoveRight = context.ReadValueAsButton();
+        transform.localScale = new Vector3(1, 1, 1);
     }
 
 
@@ -62,5 +64,27 @@ public class PlayerMovement : MonoBehaviour
         {
             _rb.AddForce(Vector2.right * (_speed * Time.deltaTime), ForceMode2D.Impulse);
         }
+
+        if (_rb.linearVelocity.x > 0.1)
+        {
+            _animator.SetBool("Running", true);
+        }
+        
+        else if (_rb.linearVelocity.x < -0.1)
+        {
+            _animator.SetBool("Running", true);
+        }
+        else if (_rb.linearVelocity.y > 0.1)
+        {
+            _animator.SetBool("Running", true);
+        }
+        else if (_rb.linearVelocity.y < -0.1)
+        {
+            _animator.SetBool("Running", true);
+        }
+        
+        else {_animator.SetBool("Running", false);}
+        
+        
     }
 }
