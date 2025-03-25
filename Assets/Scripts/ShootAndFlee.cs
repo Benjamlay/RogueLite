@@ -30,6 +30,11 @@ public class ShootAndFlee : MonoBehaviour
             Debug.Log("start shooting the player");
             StartCoroutine(_enemyBehaviour.Shoot(_arrowPrefab));
             
+            if (_enemyBehaviour._enemyDetection._PlayerTooClose)
+            {
+                Debug.Log("fleeing the player");
+                StartCoroutine(_enemyBehaviour.Flee());
+            }
             //si le joueur est trop proche, flee()
         }
         else if(_enemyBehaviour._enemyDetection._detected == false)
@@ -37,4 +42,11 @@ public class ShootAndFlee : MonoBehaviour
             StartCoroutine(_enemyBehaviour.Patrol());
         }
     }
+
+    void Update()
+    {
+        
+    }
+
+    
 }

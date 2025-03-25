@@ -15,8 +15,7 @@ public class ArrowBehaviour : MonoBehaviour
     
     void Start()
     {
-        GetComponent<Rigidbody2D>().linearVelocity = ((Vector2)player.transform.position - (Vector2)transform.position) * _speed;
-        Destroy(gameObject, 2f);
+        Destroy(this, 2f);
     }
     void Update()
     {

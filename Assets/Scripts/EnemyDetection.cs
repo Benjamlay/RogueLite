@@ -3,12 +3,15 @@ using UnityEngine;
 public class EnemyDetection : MonoBehaviour
 {
    [SerializeField] public float detectionRadius = 5f; 
+   [SerializeField] public float TooCloseRadius = 2f;
    [SerializeField] public LayerMask playerLayer; 
    
    [SerializeField] public Transform player;
    
    public bool _detected;
    public bool _PlayerTooClose;
+   
+   public Vector2 lastKnownPosition;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -20,6 +23,7 @@ public class EnemyDetection : MonoBehaviour
     void Update()
     {
         PlayerDetection();
+        PlayerTooClose();
     }
 
     private void PlayerDetection()
@@ -29,32 +33,36 @@ public class EnemyDetection : MonoBehaviour
         if (detected != null)
         {
             player = detected.transform;
-           // Debug.Log("Player detected");
             _detected = true;
         }
         else
         {
             player = null;
             _detected = false;
-           // Debug.Log("Player not  anymore detected");
         }
         
     }
+    
     
     
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, detectionRadius);
+        Gizmos.DrawWireSphere(transform.position, TooCloseRadius);
     }
 
     private void PlayerTooClose()
     {
-        Collider2D detected = Physics2D.OverlapCircle(transform.position, detectionRadius, playerLayer);
+        Collider2D detected = Physics2D.OverlapCircle(transform.position, TooCloseRadius, playerLayer);
 
         if (detected != null)
         {
             _PlayerTooClose = true;
+        }
+        else
+        {
+            _PlayerTooClose = false;
         }
         
     }

@@ -57,10 +57,19 @@ public class EnemyBehaviour : MonoBehaviour
 
     public IEnumerator Shoot(GameObject projectile)
     {
-        Debug.Log("arrow instantiated");
-       Instantiate(projectile, (Vector2)transform.position, Quaternion.identity);
-        // Rigidbody2D _rb = bullet.GetComponent<Rigidbody2D>();
-        // _rb.AddForce((_enemyDetection.player.position - transform.position) * speed, ForceMode2D.Impulse);
+        
+        Vector2 direction = (Player.position - transform.position).normalized;
+
+        
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        Quaternion rotation = Quaternion.Euler(0, 0, angle);
+
+        
+        GameObject arrow = Instantiate(projectile, transform.position, rotation);
+       
+        arrow.GetComponent<Rigidbody2D>().linearVelocity = direction * 10;
+        Destroy(arrow, 2f);
+        
         yield return null;
     }
 }
