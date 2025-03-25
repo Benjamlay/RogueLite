@@ -41,7 +41,7 @@ public class EnemyBehaviour : MonoBehaviour
     {
         Vector2 randomOffset = Random.insideUnitCircle * patrolRadius;
         targetPosition = (Vector2)transform.position + (Vector2)transform.right + randomOffset;
-        Debug.Log("Nouveau point de patrouille : " + targetPosition);
+        //Debug.Log("Nouveau point de patrouille : " + targetPosition);
         
         _enemyMotion.SetDestination(randomOffset);
     }

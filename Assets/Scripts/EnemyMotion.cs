@@ -37,7 +37,7 @@ public class EnemyMotion : MonoBehaviour
         {
             seeker.StartPath(rb.position, destination, OnPathComplete);
         }
-        Debug.Log("destination");
+        //Debug.Log("destination");
     }
     void UpdatePath()
     {

@@ -11,11 +11,12 @@ GameObject:
   - component: {fileID: 878409031470259949}
   - component: {fileID: 1946603563989949192}
   - component: {fileID: 4033750600834781736}
+  - component: {fileID: 2260328086429679523}
   - component: {fileID: 4435749147236304891}
   - component: {fileID: 7516024739871473758}
   m_Layer: 0
   m_Name: player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -76,6 +77,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &2260328086429679523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6043573462347421358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be63301455901f743912c77aee1cacc3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &4435749147236304891
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,6 +178,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 4442dba4-693b-4e5b-97f4-5b3dda7d3131
     m_ActionName: 'PlayerMove/Right[/Keyboard/d]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 5f369e4d-1a0d-4b91-82fb-c04c96cbfe6c
+    m_ActionName: 'PlayerMove/Attack[/Keyboard/space]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: PlayerMove
@@ -228,6 +245,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Warrior_Red
       objectReference: {fileID: 0}
+    - target: {fileID: 1160356261127867848, guid: 434f25b84dde1cd4b8ec07c74491d054, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: bcde7f9e99f9a184bad44de7c79a4537, type: 2}
     - target: {fileID: 3626916397498700004, guid: 434f25b84dde1cd4b8ec07c74491d054, type: 3}
       propertyPath: m_SortingOrder
       value: 8
