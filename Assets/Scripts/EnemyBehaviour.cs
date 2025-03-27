@@ -11,7 +11,7 @@ public class EnemyBehaviour : MonoBehaviour
     [SerializeField] private PlayerHealth PlayerHealth;
 
     [SerializeField] GameObject _explosionAnimator;
-    
+    [SerializeField] GameObject _firepoint;
     private Vector2 _targetPosition;
     [SerializeField] public float  patrolRadius = 2f;
     [SerializeField] public float arrivalThreshold = 0.1f;
@@ -89,9 +89,8 @@ public class EnemyBehaviour : MonoBehaviour
 
     public IEnumerator Explode()
     {
-        
         _animator.SetBool("Explode", true);
-        Invoke("Bomb", 1f);
+        Invoke("Bomb", 0.2f);
         Destroy(gameObject, 4);
         yield return null;
     }

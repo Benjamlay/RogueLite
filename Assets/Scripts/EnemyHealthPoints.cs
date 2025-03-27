@@ -58,4 +58,13 @@ public class EnemyHealthPoints : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         spriteRenderer.color = Color.white;
     }
+
+    // void OnCollisionEnter2D(Collision2D collision)
+    // {
+    //     if (collision.gameObject.CompareTag("Arrow"))
+    //     {
+    //         TakeDamage(1, transform.position);
+    //         //l'archer se tue tout seul
+    //     }
+    // }
 }
