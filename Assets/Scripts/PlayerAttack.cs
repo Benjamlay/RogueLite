@@ -10,7 +10,7 @@ public class PlayerAttack : MonoBehaviour
     
     private bool _attack;
     [SerializeField] private float _damageGiven = 10;
-    private float attackDuration = 0.2f;
+    
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -45,12 +45,7 @@ public class PlayerAttack : MonoBehaviour
             HitPointCollider.enabled = false;
         }
     }
-
-    // private void Hit()
-    // {
-    //     HitPointCollider.enabled = true;
-    //     Invoke(nameof(HitPointCollider), attackDuration);
-    // }
+    
 
     private void OnTriggerEnter2D(Collider2D other)
     {

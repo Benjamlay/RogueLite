@@ -1,12 +1,13 @@
 using System.Collections;
 using UnityEngine;
 
-public class EnemyHealthPoints : MonoBehaviour
+public class PlayerHealth : MonoBehaviour
 {
-    [SerializeField] private float _healthPoints;
-    
-    private SpriteRenderer spriteRenderer;
+    [SerializeField] private float health = 50f;
+    [SerializeField] private Collider2D playerCollider;
     private Rigidbody2D rb;
+    private SpriteRenderer spriteRenderer;
+    
     [SerializeField] public float knockbackForce = 5f;
     [SerializeField] public float knockbackDuration = 0.2f;
     private bool isKnockedBack = false;
@@ -21,25 +22,29 @@ public class EnemyHealthPoints : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (health <= 0)
+        {
+            Destroy(gameObject);
+            //afficher game over
+        }
         
     }
-
     public void TakeDamage(float damage, Vector2 attackPosition)
     {
         if (isKnockedBack) return;
         
-        _healthPoints -= damage;
+        health -= damage;
         
         StartCoroutine(FlashRed());
         StartCoroutine(Knockback(attackPosition));
         
-        if (_healthPoints <= 0)
+        if (health <= 0)
         {
             Destroy(gameObject);
         }
     }
     
+
     private IEnumerator Knockback(Vector2 attackPosition)
     {
         isKnockedBack = true;

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class ShootAndFlee : MonoBehaviour
@@ -17,6 +18,7 @@ public class ShootAndFlee : MonoBehaviour
     void Start()
     {
         InvokeRepeating("updateState", 0f, 1f);
+        
     }
 
     // Update is called once per frame
@@ -43,6 +45,7 @@ public class ShootAndFlee : MonoBehaviour
         }
     }
 
+    
     void Update()
     {
         

@@ -8,13 +8,16 @@ public class EnemyBehaviour : MonoBehaviour
 {
     
     private Transform Player;
-    private Vector2 targetPosition;
+    [SerializeField] private PlayerHealth PlayerHealth;
+    private Vector2 _targetPosition;
     [SerializeField] public float  patrolRadius = 2f;
     [SerializeField] public float arrivalThreshold = 0.1f;
     public EnemyDetection _enemyDetection;
     public EnemyMotion _enemyMotion;
     
-    
+    private Animator _animator;
+
+    [SerializeField] private Collider2D _BombCollider;
 
     private void Awake()
     {
@@ -25,6 +28,11 @@ public class EnemyBehaviour : MonoBehaviour
     }
     void Start()
     {
+        
+        _BombCollider.enabled = false;
+        
+        _animator = GetComponentInChildren<Animator>();
+        _animator.SetBool("Explode", false);
     }
     void FixedUpdate()
     {
@@ -42,9 +50,15 @@ public class EnemyBehaviour : MonoBehaviour
     public IEnumerator Patrol()
     {
         Vector2 randomOffset = Random.insideUnitCircle * patrolRadius;
-        targetPosition = (Vector2)transform.position + (Vector2)transform.right + randomOffset;
+        _targetPosition = (Vector2)transform.position + (Vector2)transform.right + randomOffset;
         
         _enemyMotion.SetDestination(randomOffset);
+        yield return null;
+    }
+
+    public IEnumerator Arrival()
+    {
+        _enemyMotion.SetDestination(new Vector2(0, 0));
         yield return null;
     }
 
@@ -57,19 +71,40 @@ public class EnemyBehaviour : MonoBehaviour
 
     public IEnumerator Shoot(GameObject projectile)
     {
-        
         Vector2 direction = (Player.position - transform.position).normalized;
-
         
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        
         Quaternion rotation = Quaternion.Euler(0, 0, angle);
-
         
         GameObject arrow = Instantiate(projectile, transform.position, rotation);
-       
         arrow.GetComponent<Rigidbody2D>().linearVelocity = direction * 10;
         Destroy(arrow, 2f);
-        
         yield return null;
     }
-}
+
+    public IEnumerator Explode()
+    {
+        _enemyMotion.SetDestination(new Vector2(0, 0));
+        Bomb();
+        Destroy(gameObject, 4);
+        yield return null;
+    }
+
+    private void Bomb()
+    {
+        _animator.SetBool("Explode", true);
+        _BombCollider.enabled = true;
+        
+        Debug.Log("EXPLOSIONNNNN");
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other.CompareTag("Player"))
+        {
+           PlayerHealth.TakeDamage(5, transform.position);
+           Debug.Log("Player is hit");
+        }
+    }
+} 
