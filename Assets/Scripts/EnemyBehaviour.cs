@@ -9,11 +9,15 @@ public class EnemyBehaviour : MonoBehaviour
     
     private Transform Player;
     [SerializeField] private PlayerHealth PlayerHealth;
+
+    [SerializeField] GameObject _explosionAnimator;
+    
     private Vector2 _targetPosition;
     [SerializeField] public float  patrolRadius = 2f;
     [SerializeField] public float arrivalThreshold = 0.1f;
     public EnemyDetection _enemyDetection;
     public EnemyMotion _enemyMotion;
+    private SpriteRenderer _spriteRenderer;
     
     private Animator _animator;
 
@@ -24,13 +28,13 @@ public class EnemyBehaviour : MonoBehaviour
         _enemyDetection = GetComponent<EnemyDetection>();
         _enemyMotion = GetComponent<EnemyMotion>();
         Player = GameObject.FindGameObjectWithTag("Player").transform;
+        _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         
     }
     void Start()
     {
         
         _BombCollider.enabled = false;
-        
         _animator = GetComponentInChildren<Animator>();
         _animator.SetBool("Explode", false);
     }
@@ -50,7 +54,7 @@ public class EnemyBehaviour : MonoBehaviour
     public IEnumerator Patrol()
     {
         Vector2 randomOffset = Random.insideUnitCircle * patrolRadius;
-        _targetPosition = (Vector2)transform.position + (Vector2)transform.right + randomOffset;
+        //_targetPosition = (Vector2)transform.position + (Vector2)transform.right + randomOffset;
         
         _enemyMotion.SetDestination(randomOffset);
         yield return null;
@@ -85,26 +89,27 @@ public class EnemyBehaviour : MonoBehaviour
 
     public IEnumerator Explode()
     {
-        _enemyMotion.SetDestination(new Vector2(0, 0));
-        Bomb();
+        
+        _animator.SetBool("Explode", true);
+        Invoke("Bomb", 1f);
         Destroy(gameObject, 4);
         yield return null;
     }
 
     private void Bomb()
     {
-        _animator.SetBool("Explode", true);
         _BombCollider.enabled = true;
-        
-        Debug.Log("EXPLOSIONNNNN");
+        _spriteRenderer.enabled = false;
+        GameObject explosion = Instantiate(_explosionAnimator, transform.position, transform.rotation);
+        Destroy(explosion, 0.5f);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if(other.CompareTag("Player"))
         {
-           PlayerHealth.TakeDamage(5, transform.position);
-           Debug.Log("Player is hit");
+           //PlayerHealth.TakeDamage(5, transform.position);
         }
+        
     }
 } 

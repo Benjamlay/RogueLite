@@ -49,7 +49,7 @@ public class PlayerAttack : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Enemy"))
+        if (other.CompareTag("Enemy") || other.CompareTag("Patroller"))
         {
             Debug.Log("hit an enemy");
             EnemyHealthPoints enemyHP = other.GetComponent<EnemyHealthPoints>();

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -3993037870367897403}
   m_Layer: 0
   m_Name: arrow
-  m_TagString: Untagged
+  m_TagString: Arrow
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -75,6 +75,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 0.1
+  _playerHealth: {fileID: 0}
   player: {fileID: 6043573462347421358, guid: 431df80b7cc5af24db8ec9eabe94f72c, type: 3}
 --- !u!61 &-3993037870367897403
 BoxCollider2D:

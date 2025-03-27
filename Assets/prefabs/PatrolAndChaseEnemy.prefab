@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 6571490865621986187}
   m_Layer: 0
   m_Name: PatrolAndChaseEnemy
-  m_TagString: Enemy
+  m_TagString: Patroller
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -171,6 +171,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerHealth: {fileID: 0}
+  _explosionAnimator: {fileID: 0}
   patrolRadius: 5
   arrivalThreshold: 0.1
   _enemyDetection: {fileID: 0}

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
-    [SerializeField] private float health = 50f;
+    [SerializeField] public float health = 5f;
     [SerializeField] private Collider2D playerCollider;
     private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
@@ -27,6 +27,7 @@ public class PlayerHealth : MonoBehaviour
             Destroy(gameObject);
             //afficher game over
         }
+        Debug.Log(health);
         
     }
     public void TakeDamage(float damage, Vector2 attackPosition)
@@ -62,5 +63,25 @@ public class PlayerHealth : MonoBehaviour
         spriteRenderer.color = Color.red;
         yield return new WaitForSeconds(0.1f);
         spriteRenderer.color = Color.white;
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Arrow"))
+        {
+            TakeDamage(5, transform.position);
+            Destroy(collision.gameObject);
+        }
+
+        if (collision.gameObject.CompareTag("Bomb"))
+        {
+            TakeDamage(5, transform.position);
+            Destroy(collision.gameObject);
+        }
+
+        if (collision.gameObject.CompareTag("Patroller"))
+        {
+            TakeDamage(5, transform.position);
+        }
     }
 }

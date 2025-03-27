@@ -26,8 +26,7 @@ public class ArrowBehaviour : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            _playerHealth.TakeDamage(5, transform.position);
-            Destroy(this);
+            Destroy(gameObject);
         }
     }
 }

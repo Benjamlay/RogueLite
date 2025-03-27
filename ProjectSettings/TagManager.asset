@@ -7,6 +7,8 @@ TagManager:
   - Wall
   - Enemy
   - Bomb
+  - Arrow
+  - Patroller
   layers:
   - Default
   - TransparentFX

@@ -121,6 +121,7 @@ MonoBehaviour:
   nextWaypointDistance: 1
   enemyGFX: {fileID: 0}
   seeker: {fileID: 7986332968659685888}
+  rb: {fileID: 0}
 --- !u!114 &2230027868791863310
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,10 +170,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 303570f5a02c70546a661f8dff14edd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayerHealth: {fileID: 0}
+  _explosionAnimator: {fileID: 0}
   patrolRadius: 5
   arrivalThreshold: 0.1
   _enemyDetection: {fileID: 0}
   _enemyMotion: {fileID: 0}
+  _BombCollider: {fileID: 0}
 --- !u!114 &8308023868577141706
 MonoBehaviour:
   m_ObjectHideFlags: 0
