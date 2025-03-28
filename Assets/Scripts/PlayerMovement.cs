@@ -11,12 +11,17 @@ public class PlayerMovement : MonoBehaviour
     private bool _MoveLeft;
     private bool _MoveRight;
     
+    public bool lookingUp;
+    public bool lookingLeft;
+    public bool lookingDown;
     private Animator _animator;
     
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
         _animator = GetComponentInChildren<Animator>();
+        lookingUp = false;
+        lookingLeft = false;
     }
 
     
@@ -29,20 +34,31 @@ public class PlayerMovement : MonoBehaviour
     public void MoveUp(InputAction.CallbackContext context)
     {
         _MoveUp = context.ReadValueAsButton();
+        lookingUp = true;
+        lookingLeft = false;
+        lookingDown = false;
     }
     public void MoveDown(InputAction.CallbackContext context)
     {
         _MoveDown = context.ReadValueAsButton();
+        lookingDown = true;
+        lookingLeft = false;
+        lookingUp = false;
     }
     public void MoveLeft(InputAction.CallbackContext context)
     {
         _MoveLeft = context.ReadValueAsButton();
-        //transform.localScale = new Vector3(-1, 1, 1);
+        lookingLeft = true;
+        lookingUp = false;
+        lookingDown = false;
     }
     public void MoveRight(InputAction.CallbackContext context)
     {
         _MoveRight = context.ReadValueAsButton();
-        //transform.localScale = new Vector3(1, 1, 1);
+        lookingLeft = true;
+        lookingUp = false;
+        lookingDown = false;
+        
     }
 
 
