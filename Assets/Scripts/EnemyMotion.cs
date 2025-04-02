@@ -8,14 +8,14 @@ public class EnemyMotion : MonoBehaviour
     public float speed = 200;
     public float nextWaypointDistance = 3;
 
-    public Transform enemyGFX;
+    //public Transform enemyGFX;
     
     Path path;
     int currentWaypoint = 0;
-    bool reachedEndOfPath = false;
+    //bool reachedEndOfPath = false;
     
     [SerializeField] Seeker seeker;
-    public Rigidbody2D rb;
+    [HideInInspector] public Rigidbody2D rb;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     
@@ -26,7 +26,7 @@ public class EnemyMotion : MonoBehaviour
     
     void Start()
     {
-        //InvokeRepeating("UpdatePath", 0, 0.5f);
+        
     }
 
     
@@ -53,7 +53,6 @@ public class EnemyMotion : MonoBehaviour
             currentWaypoint = 0;
         }
     }
-    // Update is called once per frame
 
     void Update()
     {
@@ -66,14 +65,13 @@ public class EnemyMotion : MonoBehaviour
 
         if (currentWaypoint >= path.vectorPath.Count)
         {
-            reachedEndOfPath = true;
+            //reachedEndOfPath = true;
             return;
         }
         else
         {
-            reachedEndOfPath = false;
+            //reachedEndOfPath = false;
         }
-        
         Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized;
         Vector2 force = direction * (speed * Time.deltaTime);
         
@@ -86,13 +84,13 @@ public class EnemyMotion : MonoBehaviour
             currentWaypoint++;
         }
         
-        if (force.x >= 0.1f)
-        {
-            enemyGFX.localScale = new Vector3(1f, 1f, 1f);
-        }else if (force.x <= -0.1f)
-        {
-            enemyGFX.localScale = new Vector3(-1f, 1f, 1f);
-        }
+        // if (force.x >= 0.1f)
+        // {
+        //     enemyGFX.localScale = new Vector3(1f, 1f, 1f);
+        // }else if (force.x <= -0.1f)
+        // {
+        //     enemyGFX.localScale = new Vector3(-1f, 1f, 1f);
+        // }
         
         
     }

@@ -11,7 +11,6 @@ public class EnemyDetection : MonoBehaviour
    public bool _detected;
    public bool _PlayerTooClose;
    
-   public Vector2 lastKnownPosition;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -42,8 +41,6 @@ public class EnemyDetection : MonoBehaviour
         }
         
     }
-    
-    
     
     private void OnDrawGizmosSelected()
     {

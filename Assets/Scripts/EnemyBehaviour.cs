@@ -8,18 +8,18 @@ public class EnemyBehaviour : MonoBehaviour
 {
     
     private Transform Player;
-    [SerializeField] private PlayerHealth PlayerHealth;
-
     [SerializeField] GameObject _explosionAnimator;
-    [SerializeField] GameObject _firepoint;
+    //[SerializeField] GameObject _firepoint;
     private Vector2 _targetPosition;
     [SerializeField] public float  patrolRadius = 2f;
     [SerializeField] public float arrivalThreshold = 0.1f;
-    public EnemyDetection _enemyDetection;
-    public EnemyMotion _enemyMotion;
+    [HideInInspector] public EnemyDetection _enemyDetection;
+    [HideInInspector] public EnemyMotion _enemyMotion;
     private SpriteRenderer _spriteRenderer;
     
     private Animator _animator;
+    
+    [HideInInspector] public bool StartCoroutine;
 
     [SerializeField] private Collider2D _BombCollider;
 
@@ -29,36 +29,33 @@ public class EnemyBehaviour : MonoBehaviour
         _enemyMotion = GetComponent<EnemyMotion>();
         Player = GameObject.FindGameObjectWithTag("Player").transform;
         _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        
     }
     void Start()
     {
-        
         _BombCollider.enabled = false;
         _animator = GetComponentInChildren<Animator>();
         _animator.SetBool("Explode", false);
     }
-    void FixedUpdate()
-    {
-    }
-    void Update()
-    {
-    }
     
     public IEnumerator Chase()
     {
+        StartCoroutine = true;
+        yield return new WaitForSeconds(0.7f);
         _enemyMotion.SetDestination(Player.position);
-        yield return null;
+        StartCoroutine = false;
     }
-
+    
     public IEnumerator Patrol()
     {
+        StartCoroutine = true;
+        yield return new WaitForSeconds(3);
         Vector2 randomOffset = Random.insideUnitCircle * patrolRadius;
-        //_targetPosition = (Vector2)transform.position + (Vector2)transform.right + randomOffset;
         
         _enemyMotion.SetDestination(randomOffset);
-        yield return null;
+        StartCoroutine = false;
     }
+    
+    
 
     public IEnumerator Arrival()
     {
@@ -68,25 +65,27 @@ public class EnemyBehaviour : MonoBehaviour
 
     public IEnumerator Flee()
     {
+        StartCoroutine = true;
+        yield return new WaitForSeconds(0.5f);
         Vector2 Destination = (transform.position - Player.position).normalized;
         _enemyMotion.SetDestination(Destination * 10);
-        yield return null;
+        
+        StartCoroutine = false;
     }
 
     public IEnumerator Shoot(GameObject projectile)
     {
+        StartCoroutine = true;
+        yield return new WaitForSeconds(1.5f);
         Vector2 direction = (Player.position - transform.position).normalized;
-        
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        
         Quaternion rotation = Quaternion.Euler(0, 0, angle);
-        
         GameObject arrow = Instantiate(projectile, transform.position, rotation);
-        arrow.GetComponent<Rigidbody2D>().linearVelocity = direction * 10;
+        arrow.GetComponent<Rigidbody2D>().linearVelocity = direction * 5;
         Destroy(arrow, 2f);
-        yield return null;
+        StartCoroutine = false;
     }
-
+    
     public IEnumerator Explode()
     {
         _animator.SetBool("Explode", true);
@@ -101,14 +100,5 @@ public class EnemyBehaviour : MonoBehaviour
         _spriteRenderer.enabled = false;
         GameObject explosion = Instantiate(_explosionAnimator, transform.position, transform.rotation);
         Destroy(explosion, 0.5f);
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if(other.CompareTag("Player"))
-        {
-           //PlayerHealth.TakeDamage(5, transform.position);
-        }
-        
     }
 } 

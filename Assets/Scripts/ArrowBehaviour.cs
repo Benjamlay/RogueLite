@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class ArrowBehaviour : MonoBehaviour
 {
-    
-    [SerializeField] public float _speed;
     [SerializeField] private PlayerHealth _playerHealth;
     private EnemyDetection _enemyDetection;
     

@@ -27,7 +27,7 @@ public class PlayerHealth : MonoBehaviour
             Destroy(gameObject);
             //afficher game over
         }
-        Debug.Log(health);
+        //Debug.Log(health);
         
     }
     public void TakeDamage(float damage, Vector2 attackPosition)

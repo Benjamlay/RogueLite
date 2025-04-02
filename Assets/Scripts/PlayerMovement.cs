@@ -34,30 +34,30 @@ public class PlayerMovement : MonoBehaviour
     public void MoveUp(InputAction.CallbackContext context)
     {
         _MoveUp = context.ReadValueAsButton();
-        lookingUp = true;
-        lookingLeft = false;
-        lookingDown = false;
+        // lookingUp = true;
+        // lookingLeft = false;
+        // lookingDown = false;
     }
     public void MoveDown(InputAction.CallbackContext context)
     {
         _MoveDown = context.ReadValueAsButton();
-        lookingDown = true;
-        lookingLeft = false;
-        lookingUp = false;
+        // lookingDown = true;
+        // lookingLeft = false;
+        // lookingUp = false;
     }
     public void MoveLeft(InputAction.CallbackContext context)
     {
         _MoveLeft = context.ReadValueAsButton();
-        lookingLeft = true;
-        lookingUp = false;
-        lookingDown = false;
+        // lookingLeft = true;
+        // lookingUp = false;
+        // lookingDown = false;
     }
     public void MoveRight(InputAction.CallbackContext context)
     {
         _MoveRight = context.ReadValueAsButton();
-        lookingLeft = true;
-        lookingUp = false;
-        lookingDown = false;
+        // lookingLeft = true;
+        // lookingUp = false;
+        // lookingDown = false;
         
     }
 
@@ -67,18 +67,30 @@ public class PlayerMovement : MonoBehaviour
         if(_MoveUp)
         {
             _rb.AddForce(Vector2.up * (_speed * Time.deltaTime), ForceMode2D.Impulse);
+            lookingUp = true;
+            lookingLeft = false;
+            lookingDown = false;
         }
         if (_MoveDown)
         {
             _rb.AddForce(Vector2.down * (_speed * Time.deltaTime), ForceMode2D.Impulse);
+            lookingDown = true;
+            lookingLeft = false;
+            lookingUp = false;
         }
         if (_MoveLeft)
         {
             _rb.AddForce(Vector2.left * (_speed * Time.deltaTime), ForceMode2D.Impulse);
+            lookingLeft = true;
+            lookingUp = false;
+            lookingDown = false;
         }
         if (_MoveRight)
         {
             _rb.AddForce(Vector2.right * (_speed * Time.deltaTime), ForceMode2D.Impulse);
+            lookingLeft = true;
+            lookingUp = false;
+            lookingDown = false;
         }
 
         if (_rb.linearVelocity.x > 0.1)

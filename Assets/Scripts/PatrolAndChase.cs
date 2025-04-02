@@ -14,31 +14,20 @@ public class PatrolAndChase : MonoBehaviour
     
     void Start()
     {
-        
         InvokeRepeating("updateState", 0f, 1f);
     }
 
 
     private void updateState()
     {
-        
             if (_enemyBehaviour._enemyDetection._detected)
             {
                 StartCoroutine(_enemyBehaviour.Chase());
             }
             else if (_enemyBehaviour._enemyDetection._detected == false)
             {
-
                 StartCoroutine(_enemyBehaviour.Patrol());
-
             }
     }
-
-    // private void OnCollisionEnter2D(Collision2D collision)
-    // {
-    //     if(collision.gameObject.CompareTag("Player"))
-    //     {
-    //         _attack = true;
-    //     }
-    // }
+    
 }
