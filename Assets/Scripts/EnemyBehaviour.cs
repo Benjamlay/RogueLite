@@ -22,7 +22,18 @@ public class EnemyBehaviour : MonoBehaviour
     [HideInInspector] public bool StartCoroutine;
 
     [SerializeField] private Collider2D _BombCollider;
+    
+    private State _currentState = State.Empty;
 
+
+    public enum State
+    {
+        Empty,
+        Patrol,
+        Chase,
+        Flee,
+        Shoot
+    }
     private void Awake()
     {
         _enemyDetection = GetComponent<EnemyDetection>();
@@ -36,6 +47,7 @@ public class EnemyBehaviour : MonoBehaviour
         _animator = GetComponentInChildren<Animator>();
         _animator.SetBool("Explode", false);
     }
+    
     
     public IEnumerator Chase()
     {
