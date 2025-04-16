@@ -9,12 +9,20 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 770884708730383120, guid: 1d08652497e0ff0489ad40bcab0c246e, type: 3}
+      propertyPath: speed
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 770884708730383120, guid: 1d08652497e0ff0489ad40bcab0c246e, type: 3}
       propertyPath: seeker
       value: 
       objectReference: {fileID: 1356324225681767177}
     - target: {fileID: 770884708730383120, guid: 1d08652497e0ff0489ad40bcab0c246e, type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 770884708730383120, guid: 1d08652497e0ff0489ad40bcab0c246e, type: 3}
+      propertyPath: nextWaypointDistance
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 879015905219794826, guid: 1d08652497e0ff0489ad40bcab0c246e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -56,17 +64,29 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3685404386446671903, guid: 1d08652497e0ff0489ad40bcab0c246e, type: 3}
-      propertyPath: m_LinearDamping
+    - target: {fileID: 1889353801469787971, guid: 1d08652497e0ff0489ad40bcab0c246e, type: 3}
+      propertyPath: knockbackDuration
       value: 0.2
       objectReference: {fileID: 0}
+    - target: {fileID: 3685404386446671903, guid: 1d08652497e0ff0489ad40bcab0c246e, type: 3}
+      propertyPath: m_LinearDamping
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3685404386446671903, guid: 1d08652497e0ff0489ad40bcab0c246e, type: 3}
+      propertyPath: m_AngularDamping
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4527861632374020803, guid: 1d08652497e0ff0489ad40bcab0c246e, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 5c71b640188ddcf428f24efcf50763cb, type: 2}
     - target: {fileID: 5437816231234237150, guid: 1d08652497e0ff0489ad40bcab0c246e, type: 3}
       propertyPath: m_Name
       value: Chaser Variant
       objectReference: {fileID: 0}
     - target: {fileID: 5437816231234237150, guid: 1d08652497e0ff0489ad40bcab0c246e, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5437816231234237150, guid: 1d08652497e0ff0489ad40bcab0c246e, type: 3}
       propertyPath: m_TagString
@@ -103,6 +123,8 @@ MonoBehaviour:
   _enemyMotion: {fileID: 0}
   patrolRadius: 2
   attackRate: 0
+  PatrolCoolDown: 3
+  ChaseCoolDown: 1.5
 --- !u!114 &1356324225681767177 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6368450536077846015, guid: 1d08652497e0ff0489ad40bcab0c246e, type: 3}

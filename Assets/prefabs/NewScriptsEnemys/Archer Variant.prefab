@@ -8,13 +8,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 700031098523414902, guid: 0329748a8c02cfc47a79821c2eea3fd0, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 2743da42ebb297b48ae178b18d46c965, type: 2}
     - target: {fileID: 2092886116762921030, guid: 0329748a8c02cfc47a79821c2eea3fd0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2092886116762921030, guid: 0329748a8c02cfc47a79821c2eea3fd0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.0899999
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2092886116762921030, guid: 0329748a8c02cfc47a79821c2eea3fd0, type: 3}
       propertyPath: m_LocalPosition.z
@@ -48,6 +52,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3168298226359512154, guid: 0329748a8c02cfc47a79821c2eea3fd0, type: 3}
+      propertyPath: m_SortingOrder
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5147649517556655271, guid: 0329748a8c02cfc47a79821c2eea3fd0, type: 3}
+      propertyPath: speed
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 5147649517556655271, guid: 0329748a8c02cfc47a79821c2eea3fd0, type: 3}
+      propertyPath: nextWaypointDistance
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5264442207306909445, guid: 0329748a8c02cfc47a79821c2eea3fd0, type: 3}
+      propertyPath: knockbackForce
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5264442207306909445, guid: 0329748a8c02cfc47a79821c2eea3fd0, type: 3}
+      propertyPath: knockbackDuration
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 6757567627816219915, guid: 0329748a8c02cfc47a79821c2eea3fd0, type: 3}
       propertyPath: m_Name
       value: Archer Variant
@@ -55,6 +79,10 @@ PrefabInstance:
     - target: {fileID: 6757567627816219915, guid: 0329748a8c02cfc47a79821c2eea3fd0, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8542133307740078060, guid: 0329748a8c02cfc47a79821c2eea3fd0, type: 3}
+      propertyPath: m_AngularDamping
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 8737725934089171756, guid: 0329748a8c02cfc47a79821c2eea3fd0, type: 3}
       propertyPath: TooCloseRadius
@@ -89,6 +117,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemyDetection: {fileID: 0}
   _enemyMotion: {fileID: 0}
-  patrolRadius: 2
+  patrolRadius: 3.5
   projectile: {fileID: 699788091265611593, guid: 3aae7e0c62ad462408a2eaeacd76dd22, type: 3}
   shootCoolDown: 3
+  PatrolCoolDown: 2.5
+  FleeCoolDown: 1

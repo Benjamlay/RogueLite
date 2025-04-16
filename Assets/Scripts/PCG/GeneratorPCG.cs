@@ -9,7 +9,7 @@ using Random = UnityEngine.Random;
 public class GeneratorPCG : MonoBehaviour
 {
 
-    [FormerlySerializedAs("map")] [SerializeField] private Tilemap islandMap;
+    [SerializeField] public Tilemap islandMap;
     [SerializeField] private Tilemap WaterMap;
     [SerializeField] private Tilemap AnimatedWaterMap;
     [SerializeField] private List<TileBase> tiles;
@@ -17,6 +17,17 @@ public class GeneratorPCG : MonoBehaviour
 
     [SerializeField] private TileBase waterTile;
     [SerializeField] private TileBase animatedWaterTile;
+    
+    [SerializeField] private GameObject treePrefab;
+    [SerializeField] private float treeDensity = 0.2f;
+    private List<GameObject> AllTrees = new List<GameObject>();
+
+
+    [SerializeField] private GameObject HousePrefab;
+    [SerializeField] private float houseDensity = 0.2f;
+    
+    
+    [SerializeField] private GameObject towerPrefab;
     
     
     [Header("Settings")]
@@ -33,9 +44,16 @@ public class GeneratorPCG : MonoBehaviour
     [SerializeField] private int aliveLimit;
     [SerializeField] private int fillIterations;
     
+    
+    [SerializeField] private GameObject ArcherPrefab;
+    [SerializeField] private GameObject ChaserPrefab;
+    [SerializeField] private GameObject KamikasePrefab;
+    
+    private List<GameObject> Archers = new List<GameObject>();
+    
     public bool generationCoroutine = true;
-
-
+    
+    
 
     private Vector2Int[] _directions = new[]
     {
@@ -61,6 +79,7 @@ public class GeneratorPCG : MonoBehaviour
     void Start()
     {
         SetBarrier();
+        ClearMap();
         StartGenerate();
     }
 
@@ -89,17 +108,23 @@ public class GeneratorPCG : MonoBehaviour
         if(generationCoroutine)
         {
             Generate();
-            FillWithWater();
+            AddingWaterAndTrees();
             FillWithAnimatedWater();
+            FillWithEnemies();
         }
+
+        StartCoroutine("AStarUpdate");
+    }
+
+    private IEnumerator AStarUpdate()
+    {
+        yield return new WaitForSeconds(0.2f);
+        AstarPath.active.Scan();
     }
     private void Generate()
     {
         generationCoroutine = false;
-        Debug.Log("Generate Drunkard");
         GenerateDrunkard();
-
-        Debug.Log("Generate Fill");
         GameOfLife();
         
         generationCoroutine = true;
@@ -110,6 +135,18 @@ public class GeneratorPCG : MonoBehaviour
         islandMap.ClearAllTiles();
         WaterMap.ClearAllTiles();
         AnimatedWaterMap.ClearAllTiles();
+        foreach (GameObject tree in AllTrees)
+        {
+            DestroyImmediate(tree);
+        }
+        AllTrees.Clear();
+        
+        foreach (GameObject archers in Archers)
+        {
+            DestroyImmediate(archers);
+        }
+        Archers.Clear();
+        
     }
     private void GenerateDrunkard()
     {
@@ -149,8 +186,6 @@ public class GeneratorPCG : MonoBehaviour
 
     private void GameOfLife()
     {
-        
-        
         List<Vector3Int> aliveCells = new List<Vector3Int>();
         List<Vector3Int> deadCells = new List<Vector3Int>();
 
@@ -159,33 +194,23 @@ public class GeneratorPCG : MonoBehaviour
             aliveCells.Clear();
             deadCells.Clear();
             
-            // Parcourir le rectangle
             for (int x = _barrier.xMin; x < _barrier.xMax; x++)
             {
                 for (int y = _barrier.yMin; y < _barrier.yMax; y++)
                 {
-                    //Debug.Log($"x={x} : y={y} : {map.GetTile(new Vector3Int(x, y))}");
+                    
 
                     Vector3Int position = new Vector3Int(x, y);
 
-                    // check if cell is dead or alive
+                   
                     bool isAlive = islandMap.HasTile(position);
 
-                    // check how many neighbours are dead or alive
+                    
                     int countAlive = CountAlive(position, islandMap);
 
                     if (isAlive)
                     {
-                        // if (countAlive > deadLimitMax || countAlive < deadLimitMin)
-                        // {
-                        //     // Elle meurt
-                        //     deadCells.Add(position);
-                        // }
-                        // else
-                        // {
-                        //     aliveCells.Add(position);
-                        //     // Sinon Elle reste en vie
-                        // }
+                       
                     }
                     else
                     {
@@ -203,7 +228,6 @@ public class GeneratorPCG : MonoBehaviour
                     }
                 }
             }
-
             foreach (Vector3Int aliveCell in aliveCells)
             {
                 if (!islandMap.HasTile(aliveCell))
@@ -215,9 +239,7 @@ public class GeneratorPCG : MonoBehaviour
             {
                 if (islandMap.HasTile(deadCell)) islandMap.SetTile(deadCell, null);
             }
-            
         }
-       
     }
 
     private int CountAlive(Vector3Int position, Tilemap map)
@@ -263,7 +285,7 @@ public class GeneratorPCG : MonoBehaviour
 
     }
 
-    private void FillWithWater()
+    private void AddingWaterAndTrees()
     {
         for (int x = _barrier.xMin; x < _barrier.xMax; x++)
         {
@@ -277,13 +299,27 @@ public class GeneratorPCG : MonoBehaviour
                         WaterMap.SetTile(position, waterTile);
                     }
                     
-   
-                
-                
+                    if (islandMap.HasTile(position) && CountAlive(position, islandMap) == 8)
+                    {
+                        if (Random.Range(0f, 1f) < treeDensity)
+                        {
+                            GameObject NewTree = Instantiate(treePrefab, position, Quaternion.identity);
+                            AllTrees.Add(NewTree);
+                        }
+                    }
+
+                    if (islandMap.HasTile(position) && CountAlive(position, islandMap) == 8)
+                    {
+                        if (Random.Range(0f, 1f) < houseDensity)
+                        {
+                            GameObject NewHouse = Instantiate(HousePrefab, position, Quaternion.identity);
+                            AllTrees.Add(NewHouse);
+                        }
+                    }
             }
         }
     }
-
+    
     private void FillWithAnimatedWater()
     {
         for (int x = _barrier.xMin; x < _barrier.xMax; x++)
@@ -300,7 +336,27 @@ public class GeneratorPCG : MonoBehaviour
                         AnimatedWaterMap.SetTile(position, animatedWaterTile);
                     }
                 }
+                
+            }
+        }
+    }
 
+    public void FillWithEnemies()
+    {
+        for (int x = _barrier.xMin; x < _barrier.xMax; x++)
+        {
+            for (int y = _barrier.yMin; y < _barrier.yMax; y++)
+            {
+                Vector3Int position = new Vector3Int(x, y);
+                
+                if (islandMap.HasTile(position) && CountAlive(position, islandMap) > 7)
+                {
+                    if (Random.Range(0f, 1f) < 0.005f)
+                    {
+                        GameObject newArcher =Instantiate(ArcherPrefab, position, Quaternion.identity);
+                        Archers.Add(newArcher);
+                    }
+                }
             }
         }
     }
