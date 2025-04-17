@@ -38,13 +38,13 @@ public class EnemyMotion : MonoBehaviour
             seeker.StartPath(rb.position, destination, OnPathComplete);
         }
     }
-    void UpdatePath()
-    {
-        if (seeker.IsDone())
-        {
-            seeker.StartPath(rb.position, target, OnPathComplete);
-        }
-    }
+    // void UpdatePath()
+    // {
+    //     if (seeker.IsDone())
+    //     {
+    //         seeker.StartPath(rb.position, target, OnPathComplete);
+    //     }
+    // }
     void OnPathComplete(Path p)
     {
         if (!p.error)

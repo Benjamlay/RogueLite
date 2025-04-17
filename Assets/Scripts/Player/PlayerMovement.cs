@@ -60,8 +60,7 @@ public class PlayerMovement : MonoBehaviour
         // lookingDown = false;
         
     }
-
-
+    
     private void Move()
     {
         if(_MoveUp)
@@ -117,5 +116,9 @@ public class PlayerMovement : MonoBehaviour
         
         else {_animator.SetBool("Running", false);}
     }
-    
+
+    public void SetPosition(Vector2 position)
+    {
+        this.transform.position = position;
+    }
 }

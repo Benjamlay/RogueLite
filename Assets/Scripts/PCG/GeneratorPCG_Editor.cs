@@ -16,7 +16,7 @@ public class GeneratorPCG_Editor : Editor
         
         if (GUILayout.Button("Generate"))
         {
-            Debug.Log("Generate baby !!!");
+            //Debug.Log("Generate baby !!!");
             generatorPcg.generationCoroutine = true;
             generatorPcg.StartGenerate();
         }

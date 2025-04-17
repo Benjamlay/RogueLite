@@ -55,9 +55,6 @@ public class ArcherEnemy : MonoBehaviour
                 Dead();
                 break;
         }
-        
-        
-
         CheckTransitions();
     }
 

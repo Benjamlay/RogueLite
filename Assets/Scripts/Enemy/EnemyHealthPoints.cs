@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -12,12 +13,16 @@ public class EnemyHealthPoints : MonoBehaviour
     private bool isKnockedBack = false;
     private Animator animator;
     
+    public event Action<EnemyHealthPoints> OnDead;
+    
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponentInChildren<Animator>();
+        EnemyManager eManager = FindAnyObjectByType<EnemyManager>();
     }
 
     // Update is called once per frame
@@ -29,7 +34,7 @@ public class EnemyHealthPoints : MonoBehaviour
 
     public void TakeDamage(float damage, Vector2 attackPosition)
     {
-        if (isKnockedBack) return;
+        if (isKnockedBack || _healthPoints <= 0) return;
         
         _healthPoints -= damage;
         
@@ -40,6 +45,7 @@ public class EnemyHealthPoints : MonoBehaviour
         {
             //animator.SetBool("Dead", true);
             //Destroy(gameObject);
+            OnDead ?.Invoke(this);
         }
     }
     

@@ -75,6 +75,7 @@ public class PlayerAttack : MonoBehaviour
             if (enemyHP != null)
             {
                 enemyHP.TakeDamage(_damageGiven, transform.position);
+                CamShakeManager.Instance.Shake(1f, 1f, 0.5f);
             }
         }
 
@@ -86,7 +87,9 @@ public class PlayerAttack : MonoBehaviour
             if(!animator.GetBool("Dead"))
             {
                 animator.Play("Hit");
+                CamShakeManager.Instance.Shake(1f, 1f, 0.5f);
                 treeBehaviour.health--;
+                
             }
         }
     }

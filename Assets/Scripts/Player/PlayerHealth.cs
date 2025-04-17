@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -12,11 +13,15 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] public float knockbackDuration = 0.2f;
     private bool isKnockedBack = false;
     
+    public event Action<PlayerHealth> OnDead;
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
+        PlayerManager pManager = FindAnyObjectByType<PlayerManager>();
+        pManager.AddPlayer(this);
     }
 
     // Update is called once per frame
@@ -41,6 +46,7 @@ public class PlayerHealth : MonoBehaviour
         
         if (health <= 0)
         {
+            OnDead?.Invoke(this);
             Destroy(gameObject);
         }
     }
