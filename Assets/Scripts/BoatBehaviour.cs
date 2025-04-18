@@ -1,13 +1,20 @@
+using System.Collections;
 using UnityEngine;
 
 public class BoatBehaviour : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer PlayerSprite;
     
-    private bool playerOnBoat = false;
+    public bool playerOnBoat = false;
+
+    private GameObject player;
+    
+    MapManager mapManager;
     void Start()
     {
         PlayerSprite.enabled = false;
+        mapManager = FindObjectOfType<MapManager>();
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
     
@@ -15,7 +22,7 @@ public class BoatBehaviour : MonoBehaviour
     {
         if (playerOnBoat)
         {
-            transform.Translate(Vector2.right * (2f * Time.deltaTime));
+            transform.Translate(Vector2.left * (2f * Time.deltaTime));
         }
     }
 
@@ -24,9 +31,19 @@ public class BoatBehaviour : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             PlayerSprite.enabled = true;
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
             player.SetActive(false);
             playerOnBoat = true;
+            StartCoroutine("OnToTheNextLevel");
         }
+    }
+
+    public IEnumerator OnToTheNextLevel()
+    {
+        yield return new WaitForSeconds(4f);
+        playerOnBoat = false;
+        mapManager.NewMap();
+        player.SetActive(true);
+        Destroy(gameObject);
+        
     }
 }

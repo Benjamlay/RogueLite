@@ -320,6 +320,7 @@ public class GeneratorPCG : MonoBehaviour
     }
     public void FillWithEnemies()
     {
+        EnemyManager eManager = FindAnyObjectByType<EnemyManager>();
         for (int x = _barrier.xMin; x < _barrier.xMax; x++)
         {
             for (int y = _barrier.yMin; y < _barrier.yMax; y++)
@@ -328,15 +329,21 @@ public class GeneratorPCG : MonoBehaviour
                 
                 if (islandMap.HasTile(position) && CountAlive(position, islandMap) > 7)
                 {
-                    if (Random.Range(0f, 1f) < enemyDensity)
+                    if (Random.Range(0.0001f, 1f) < enemyDensity)
                     {
                         GameObject newArcher =Instantiate(ArcherPrefab, position, Quaternion.identity);
                         Archers.Add(newArcher);
-                        EnemyManager eManager = FindAnyObjectByType<EnemyManager>();
                         eManager.AddEnemy(newArcher.GetComponent<EnemyHealthPoints>());
                     }
                 }
+                
             }
+        }
+        if (Archers.Count == 0)
+        {
+            GameObject safetyArcher = Instantiate(ArcherPrefab, new Vector2(0, 0), Quaternion.identity);
+            Archers.Add(safetyArcher);
+            eManager.AddEnemy(safetyArcher.GetComponent<EnemyHealthPoints>());
         }
     }
     public Vector2 BoatSpawn()
