@@ -43,6 +43,7 @@ public class GeneratorPCG : MonoBehaviour
     [SerializeField] private GameObject ArcherPrefab;
     [SerializeField] private GameObject ChaserPrefab;
     [SerializeField] private GameObject KamikasePrefab;
+    [SerializeField] private GameObject[] enemies;
     
     [SerializeField] private float enemyDensity;
     
@@ -318,6 +319,12 @@ public class GeneratorPCG : MonoBehaviour
             }
         }
     }
+    
+    GameObject GetRandomEnemy()
+    {
+        int index = Random.Range(0, enemies.Length);
+        return enemies[index];
+    }
     public void FillWithEnemies()
     {
         EnemyManager eManager = FindAnyObjectByType<EnemyManager>();
@@ -331,7 +338,7 @@ public class GeneratorPCG : MonoBehaviour
                 {
                     if (Random.Range(0.0001f, 1f) < enemyDensity)
                     {
-                        GameObject newArcher =Instantiate(ArcherPrefab, position, Quaternion.identity);
+                        GameObject newArcher =Instantiate(GetRandomEnemy(), position, Quaternion.identity);
                         Archers.Add(newArcher);
                         eManager.AddEnemy(newArcher.GetComponent<EnemyHealthPoints>());
                     }

@@ -1,18 +1,26 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
-    [SerializeField] public float health = 5f;
+    [SerializeField] public float health;
     [SerializeField] private Collider2D playerCollider;
     private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
     
+    [SerializeField] private Image[] hearts;
+    [SerializeField] private Sprite fullHeart;
+    [SerializeField] private Sprite emptyHeart;
+    
     [SerializeField] public float knockbackForce = 5f;
     [SerializeField] public float knockbackDuration = 0.2f;
     private bool isKnockedBack = false;
-    
+
+    private bool IsHit;
+    private float InvincibilityCoolDown = 1f;
+    private float InvincibilityTimer;
     public event Action<PlayerHealth> OnDead;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -22,6 +30,7 @@ public class PlayerHealth : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         PlayerManager pManager = FindAnyObjectByType<PlayerManager>();
         pManager.AddPlayer(this);
+        UpdateHearts();
     }
 
     // Update is called once per frame
@@ -35,23 +44,42 @@ public class PlayerHealth : MonoBehaviour
         //Debug.Log(health);
         
     }
+    
+    void UpdateHearts()
+    {
+        for (int i = 0; i < hearts.Length; i++)
+        {
+            if (i < health)
+                hearts[i].sprite = fullHeart;
+            else
+                hearts[i].sprite = emptyHeart;
+        }
+    }
+    
     public void TakeDamage(float damage, Vector2 attackPosition)
     {
-        if (isKnockedBack) return;
-        
-        health -= damage;
-        
-        StartCoroutine(FlashRed());
-        StartCoroutine(Knockback(attackPosition));
-        
+        if (!IsHit)
+        {
+            if (isKnockedBack) return;
+            health -= damage;
+            UpdateHearts();
+            StartCoroutine(FlashRed());
+            StartCoroutine(Knockback(attackPosition));
+            StartCoroutine(Invincibility());
+        }
         if (health <= 0)
         {
             OnDead?.Invoke(this);
             Destroy(gameObject);
         }
     }
-    
 
+    private IEnumerator Invincibility()
+    {
+        IsHit = true;
+        yield return new WaitForSeconds(InvincibilityCoolDown);
+        IsHit = false;
+    }
     private IEnumerator Knockback(Vector2 attackPosition)
     {
         isKnockedBack = true;
@@ -75,19 +103,14 @@ public class PlayerHealth : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Arrow"))
         {
-            TakeDamage(5, transform.position);
+            TakeDamage(1, transform.position);
             Destroy(collision.gameObject);
         }
-
-        if (collision.gameObject.CompareTag("Bomb"))
-        {
-            TakeDamage(5, transform.position);
-            Destroy(collision.gameObject);
-        }
+        
 
         if (collision.gameObject.CompareTag("Patroller"))
         {
-            TakeDamage(5, transform.position);
+            TakeDamage(1, transform.position);
         }
     }
 }

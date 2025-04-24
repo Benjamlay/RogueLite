@@ -68,6 +68,10 @@ PrefabInstance:
       propertyPath: knockbackDuration
       value: 0.2
       objectReference: {fileID: 0}
+    - target: {fileID: 2060747343251654639, guid: 1d08652497e0ff0489ad40bcab0c246e, type: 3}
+      propertyPath: m_SortingOrder
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 3685404386446671903, guid: 1d08652497e0ff0489ad40bcab0c246e, type: 3}
       propertyPath: m_LinearDamping
       value: 10
@@ -86,7 +90,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5437816231234237150, guid: 1d08652497e0ff0489ad40bcab0c246e, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5437816231234237150, guid: 1d08652497e0ff0489ad40bcab0c246e, type: 3}
       propertyPath: m_TagString
