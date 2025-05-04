@@ -114,7 +114,7 @@ MonoBehaviour:
   _enemyDetection: {fileID: 0}
   _enemyMotion: {fileID: 0}
   _explosion: {fileID: 7632413179810987234, guid: da4ad54f1d4784f4281e44808b7796cf, type: 3}
-  ChaseCoolDown: 3
+  ChaseCoolDown: 0.3
   ExplosionCoolDown: 3
   idleCoolDown: 1
 --- !u!114 &3883366709721911701

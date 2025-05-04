@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class ChaserEnemy : MonoBehaviour
@@ -30,6 +31,8 @@ public class ChaserEnemy : MonoBehaviour
     [SerializeField] private CircleCollider2D ColUp;
     [SerializeField] private CircleCollider2D ColDown;
     [SerializeField] private CircleCollider2D ColLeft;
+
+    [SerializeField] private CircleCollider2D HitPoint;
     
     void Start()
     {
@@ -42,6 +45,11 @@ public class ChaserEnemy : MonoBehaviour
         _animator = GetComponentInChildren<Animator>();
         _enemyHealthPoints = GetComponent<EnemyHealthPoints>();
         _currentState = State.Patrol;
+        ColUp.enabled = false;
+        ColDown.enabled = false;
+        ColLeft.enabled = false;
+        HitPoint.enabled = false;
+        
     }
 
     // Update is called once per frame
@@ -54,6 +62,9 @@ public class ChaserEnemy : MonoBehaviour
                 break;
             case State.Chase:
                 Chase();
+                break;
+            case State.Attack:
+                Attack();
                 break;
             case State.Dead:
                 Dead();
@@ -76,8 +87,6 @@ public class ChaserEnemy : MonoBehaviour
     
     private void Dead()
     {
-        // _animator.SetBool("Running", false);
-        // _animator.SetBool("ShootLeft", false);
         _animator.SetBool("Dead", true);
         _enemyMotion.rb.constraints = RigidbodyConstraints2D.FreezeAll;
     }
@@ -95,41 +104,48 @@ public class ChaserEnemy : MonoBehaviour
     {
         if(Time.time >= AttackInterval)
         {
-            if (_rb.linearVelocity.x > 0.01)
-            {
-                transform.localScale = new Vector3(1, 1, 1);
-                ColLeft.enabled = true;
-                ColDown.enabled = false;
-                ColUp.enabled = false;
-
-            }
-
-            if (_rb.linearVelocity.x > -0.01)
-            {
-                transform.localScale = new Vector3(-1, 1, 1);
-                ColLeft.enabled = true;
-                ColDown.enabled = false;
-                ColUp.enabled = false;
-            }
-
-            if (_rb.linearVelocity.y < -0.01)
-            {
-                ColDown.enabled = true;
-                ColUp.enabled = false;
-                ColLeft.enabled = false;
-            }
-
-            if (_rb.linearVelocity.y < 0.01)
-            {
-                ColUp.enabled = true;
-                ColDown.enabled = false;
-                ColLeft.enabled = false;
-            }
-            
+            // if (_rb.linearVelocity.x > 0.1)
+            // {
+            //     transform.localScale = new Vector3(1, 1, 1);
+            //     ColLeft.enabled = true;
+            //     ColDown.enabled = false;
+            //     ColUp.enabled = false;
+            // }
+            //
+            // if (_rb.linearVelocity.x > -0.1)
+            // {
+            //     transform.localScale = new Vector3(-1, 1, 1);
+            //     ColLeft.enabled = true;
+            //     ColDown.enabled = false;
+            //     ColUp.enabled = false;
+            // }
+            //
+            // if (_rb.linearVelocity.y < -0.1)
+            // {
+            //     ColDown.enabled = true;
+            //     ColUp.enabled = false;
+            //     ColLeft.enabled = false;
+            // }
+            //
+            // if (_rb.linearVelocity.y < 0.1)
+            // {
+            //     ColUp.enabled = true;
+            //     ColDown.enabled = false;
+            //     ColLeft.enabled = false;
+            // }
+            StartCoroutine("HitPointEnable");
             AttackInterval = Time.time + AttackCoolDown;
+            
         }
     }
 
+    IEnumerator HitPointEnable()
+    {
+        _animator.SetTrigger("New Trigger");
+        HitPoint.enabled = true;
+        yield return new WaitForSeconds(0.2f);
+        HitPoint.enabled = false;
+    }
     void CheckTransitions()
     {
         if (_enemyDetection._detected)
@@ -149,6 +165,15 @@ public class ChaserEnemy : MonoBehaviour
         if (_enemyHealthPoints._healthPoints <= 0)
         {
             _currentState = State.Dead;
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            PlayerHealth playerHealth = other.GetComponent<PlayerHealth>();
+            playerHealth.TakeDamage(1, transform.position);
         }
     }
 }

@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -7,19 +9,22 @@ using UnityEngine.UI;
 public class UiManager : MonoBehaviour
 {
     [SerializeField] private GameObject panel;
-    [SerializeField] private Button ResumeButton;
-    [SerializeField] private Button RestartButton;
-    [SerializeField] private Button QuitButton;
-    
+    [SerializeField] private GameObject GameOverPanel;
+    private PlayerHealth _playerHealth;
     private bool PanelOpened;
+    private bool DisplayingGameOver;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+    
     void Start()
     {
+        _playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
         panel.SetActive(false);
+        GameOverPanel.SetActive(false);
+        DisplayingGameOver = false;
     }
-
-    // Update is called once per frame
+    
+    
     void Update()
     {
         if (PanelOpened)
@@ -30,8 +35,24 @@ public class UiManager : MonoBehaviour
         {
             Resume();
         }
+
+        if (_playerHealth.gameOver)
+        {
+            StartCoroutine("OpeningGameOverPanel");
+
+            if(DisplayingGameOver)
+            {
+                GameOverPanel.SetActive(true);
+                //Time.timeScale = 0f;
+            }
+        }
     }
 
+    IEnumerator OpeningGameOverPanel()
+    {
+        yield return new WaitForSeconds(3f);
+        DisplayingGameOver = true;
+    }
 
     public void OpenCloseUI(InputAction.CallbackContext context)
     {
@@ -64,5 +85,6 @@ public class UiManager : MonoBehaviour
     public void Restart()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        GameOverPanel.SetActive(false);
     }
 }

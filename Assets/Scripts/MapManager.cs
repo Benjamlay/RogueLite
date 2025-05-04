@@ -49,20 +49,12 @@ public class MapManager : MonoBehaviour
 
     public void PlayerWon()
     {
-        //Debug.Log("Player Won");
         Instantiate(Boat, generator.BoatSpawn(), Quaternion.identity);
-        // if(Boat.GetComponent<BoatBehaviour>().playerOnBoat)
-        // {
-        //     Debug.Log("player is on the boat");
-        //     WinTheMap = true;
-        // }
-        
-
     }
 
     public void PlayerLost()
     {
-        Debug.Log("Player Lost");
+        
     }
 
     public void NewMap()

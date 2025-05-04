@@ -54,37 +54,42 @@ public class PlayerMovement : MonoBehaviour
     
     private void Move()
     {
+        Vector2 moveDirection = Vector2.zero;
+        
         if(_MoveUp)
         {
-            _rb.AddForce(Vector2.up * (_speed * Time.deltaTime), ForceMode2D.Impulse);
+            moveDirection += Vector2.up;
             lookingUp = true;
             lookingLeft = false;
             lookingDown = false;
         }
         if (_MoveDown)
         {
-            _rb.AddForce(Vector2.down * (_speed * Time.deltaTime), ForceMode2D.Impulse);
+            moveDirection += Vector2.down;
             lookingDown = true;
             lookingLeft = false;
             lookingUp = false;
         }
         if (_MoveLeft)
         {
-            _rb.AddForce(Vector2.left * (_speed * Time.deltaTime), ForceMode2D.Impulse);
+            moveDirection += Vector2.left;
             lookingLeft = true;
             lookingUp = false;
             lookingDown = false;
         }
         if (_MoveRight)
         {
-            _rb.AddForce(Vector2.right * (_speed * Time.deltaTime), ForceMode2D.Impulse);
+            moveDirection += Vector2.right;
             lookingLeft = true;
             lookingUp = false;
             lookingDown = false;
-            
         }
 
-        //_rb.AddForce(movement * (_speed * Time.deltaTime), ForceMode2D.Impulse);
+        if (moveDirection != Vector2.zero)
+        {
+            moveDirection = moveDirection.normalized;
+            _rb.AddForce(moveDirection * (_speed * Time.deltaTime), ForceMode2D.Impulse);
+        }
         
         if (_rb.linearVelocity.x > 0.1)
         {

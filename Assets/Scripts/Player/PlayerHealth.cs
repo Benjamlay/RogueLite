@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
@@ -9,6 +10,7 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private Collider2D playerCollider;
     private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
+    private Animator _animator;
     
     [SerializeField] private Image[] hearts;
     [SerializeField] private Sprite fullHeart;
@@ -21,6 +23,8 @@ public class PlayerHealth : MonoBehaviour
     private bool IsHit;
     private float InvincibilityCoolDown = 1f;
     private float InvincibilityTimer;
+    
+    public bool gameOver;
     public event Action<PlayerHealth> OnDead;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -28,9 +32,11 @@ public class PlayerHealth : MonoBehaviour
     {
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
+        _animator = GetComponentInChildren<Animator>();
         PlayerManager pManager = FindAnyObjectByType<PlayerManager>();
         pManager.AddPlayer(this);
         UpdateHearts();
+        gameOver = false;
     }
 
     // Update is called once per frame
@@ -38,11 +44,8 @@ public class PlayerHealth : MonoBehaviour
     {
         if (health <= 0)
         {
-            Destroy(gameObject);
-            //afficher game over
+            gameOver = true;
         }
-        //Debug.Log(health);
-        
     }
     
     void UpdateHearts()
@@ -71,7 +74,9 @@ public class PlayerHealth : MonoBehaviour
         if (health <= 0)
         {
             OnDead?.Invoke(this);
-            Destroy(gameObject);
+            _animator.SetBool("Dead", true);
+            playerCollider.enabled = false;
+            GetComponent<PlayerInput>().enabled = false;
         }
     }
 
