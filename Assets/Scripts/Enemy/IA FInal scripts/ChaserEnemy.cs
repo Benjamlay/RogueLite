@@ -9,6 +9,7 @@ public class ChaserEnemy : MonoBehaviour
     [SerializeField] public float  patrolRadius = 2f;
     State _currentState = State.Patrol;
     private Transform Player;
+    private Rigidbody2D _rb;
     public enum State { Patrol, Chase, Attack, Dead }
 
     private Vector2 randomOffset;
@@ -19,18 +20,28 @@ public class ChaserEnemy : MonoBehaviour
 
     private float ChaseInterval;
     [SerializeField] private float ChaseCoolDown = 1.5f;
+
+    private float AttackInterval;
+    [SerializeField] private float AttackCoolDown = 2f;
     
     private Animator _animator;
     private EnemyHealthPoints _enemyHealthPoints;
+
+    [SerializeField] private CircleCollider2D ColUp;
+    [SerializeField] private CircleCollider2D ColDown;
+    [SerializeField] private CircleCollider2D ColLeft;
     
     void Start()
     {
         Player = GameObject.FindGameObjectWithTag("Player").transform;
+        _rb = GetComponent<Rigidbody2D>();
         _enemyDetection = GetComponent<EnemyDetection>();
         _enemyMotion = GetComponent<EnemyMotion>();
         nextPatrolRecalculateTime = Time.time + PatrolCoolDown;
+        AttackInterval = Time.time + AttackCoolDown;
         _animator = GetComponentInChildren<Animator>();
         _enemyHealthPoints = GetComponent<EnemyHealthPoints>();
+        _currentState = State.Patrol;
     }
 
     // Update is called once per frame
@@ -82,7 +93,41 @@ public class ChaserEnemy : MonoBehaviour
 
     private void Attack()
     {
-         /*Not implemented yet*/
+        if(Time.time >= AttackInterval)
+        {
+            if (_rb.linearVelocity.x > 0.01)
+            {
+                transform.localScale = new Vector3(1, 1, 1);
+                ColLeft.enabled = true;
+                ColDown.enabled = false;
+                ColUp.enabled = false;
+
+            }
+
+            if (_rb.linearVelocity.x > -0.01)
+            {
+                transform.localScale = new Vector3(-1, 1, 1);
+                ColLeft.enabled = true;
+                ColDown.enabled = false;
+                ColUp.enabled = false;
+            }
+
+            if (_rb.linearVelocity.y < -0.01)
+            {
+                ColDown.enabled = true;
+                ColUp.enabled = false;
+                ColLeft.enabled = false;
+            }
+
+            if (_rb.linearVelocity.y < 0.01)
+            {
+                ColUp.enabled = true;
+                ColDown.enabled = false;
+                ColLeft.enabled = false;
+            }
+            
+            AttackInterval = Time.time + AttackCoolDown;
+        }
     }
 
     void CheckTransitions()
@@ -90,6 +135,11 @@ public class ChaserEnemy : MonoBehaviour
         if (_enemyDetection._detected)
         {
             _currentState = State.Chase;
+            
+            if (_enemyDetection._PlayerTooClose)
+            {
+                _currentState = State.Attack;
+            }
         }
         else
         {

@@ -36,6 +36,7 @@ public class KamikaseEnemy : MonoBehaviour
         explosionCollider = GetComponentInChildren<CircleCollider2D>();
         explosionCollider.enabled = false;
         _animator = GetComponentInChildren<Animator>();
+        _currentState = State.Idle;
 
     }
 

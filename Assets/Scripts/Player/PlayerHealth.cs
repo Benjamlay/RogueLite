@@ -63,6 +63,7 @@ public class PlayerHealth : MonoBehaviour
             if (isKnockedBack) return;
             health -= damage;
             UpdateHearts();
+            CamShakeManager.Instance.Shake(2f, 2f, 0.7f);
             StartCoroutine(FlashRed());
             StartCoroutine(Knockback(attackPosition));
             StartCoroutine(Invincibility());

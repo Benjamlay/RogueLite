@@ -35,6 +35,7 @@ public class ArcherEnemy : MonoBehaviour
         FleeInterval = Time.time + FleeCoolDown;
         _animator = GetComponentInChildren<Animator>();
         _enemyHealthPoints = GetComponent<EnemyHealthPoints>();
+        _currentState = State.Patrol;
     }
 
     // Update is called once per frame

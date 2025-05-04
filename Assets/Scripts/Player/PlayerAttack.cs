@@ -14,7 +14,7 @@ public class PlayerAttack : MonoBehaviour
     
     [SerializeField] public PlayerMovement _playerMovement;
     
-    
+    private float ShakeCamDuration = 0.2f;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -38,17 +38,17 @@ public class PlayerAttack : MonoBehaviour
         
         if (context.started)
         {
-            if(_playerMovement.lookingLeft)
+            if(_playerMovement.lookingLeft /*|| _playerMovement.movement.x >= 0.1f || _playerMovement.movement.x >= -0.1f*/)
             {
                 _animator.SetBool("AttackLeft", true);
                 HitPointColliderLeft.enabled = true;
             }
-            else if (_playerMovement.lookingUp)
+            else if (_playerMovement.lookingUp || _playerMovement.movement.y >= 0.3)
             {
                 _animator.SetBool("AttackUp", true);
                 HitPointColliderUp.enabled = true;
             }
-            else if (_playerMovement.lookingDown)
+            else if (_playerMovement.lookingDown || _playerMovement.movement.y <= -0.3)
             {
                 _animator.SetBool("AttackDown", true);
                 HitPointColliderDown.enabled = true;
@@ -75,7 +75,7 @@ public class PlayerAttack : MonoBehaviour
             if (enemyHP != null)
             {
                 enemyHP.TakeDamage(_damageGiven, transform.position);
-                CamShakeManager.Instance.Shake(1f, 1f, 0.5f);
+                CamShakeManager.Instance.Shake(2f, 2f, ShakeCamDuration);
             }
         }
 
@@ -87,7 +87,7 @@ public class PlayerAttack : MonoBehaviour
             if(!animator.GetBool("Dead"))
             {
                 animator.Play("Hit");
-                CamShakeManager.Instance.Shake(1f, 1f, 0.5f);
+                CamShakeManager.Instance.Shake(2f, 2f, ShakeCamDuration);
                 treeBehaviour.health--;
                 
             }
