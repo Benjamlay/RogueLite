@@ -43,7 +43,7 @@ public class UiManager : MonoBehaviour
             if(DisplayingGameOver)
             {
                 GameOverPanel.SetActive(true);
-                //Time.timeScale = 0f;
+                Time.timeScale = 0;
             }
         }
     }

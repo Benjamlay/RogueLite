@@ -58,6 +58,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "ShieldUp",
+                    "type": "Button",
+                    "id": "360df9a4-aca7-4462-ab37-060207b4dd9b",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -137,6 +146,28 @@
                     "action": "ControllerMove",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7eaec871-3c3c-4648-a114-fa2099fcb249",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ShieldUp",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "62807b81-ae75-4855-b706-9d895c08684d",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ShieldUp",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -159,6 +190,17 @@
                     "name": "",
                     "id": "ec9f7a32-bc18-4ca0-8b7b-71569a07e77b",
                     "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "OpenClose",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "16a6a7bd-605e-489e-bdb8-4c70c89165cb",
+                    "path": "<Gamepad>/start",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

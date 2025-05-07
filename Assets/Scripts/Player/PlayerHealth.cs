@@ -20,6 +20,8 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] public float knockbackDuration = 0.2f;
     private bool isKnockedBack = false;
 
+	private PlayerAttack _playerAttack;
+
     private bool IsHit;
     private float InvincibilityCoolDown = 1f;
     private float InvincibilityTimer;
@@ -36,6 +38,7 @@ public class PlayerHealth : MonoBehaviour
         PlayerManager pManager = FindAnyObjectByType<PlayerManager>();
         pManager.AddPlayer(this);
         UpdateHearts();
+		_playerAttack = GetComponent<PlayerAttack>();
         gameOver = false;
     }
 
@@ -61,16 +64,19 @@ public class PlayerHealth : MonoBehaviour
     
     public void TakeDamage(float damage, Vector2 attackPosition)
     {
-        if (!IsHit)
-        {
-            if (isKnockedBack) return;
-            health -= damage;
-            UpdateHearts();
-            CamShakeManager.Instance.Shake(2f, 2f, 0.7f);
-            StartCoroutine(FlashRed());
-            StartCoroutine(Knockback(attackPosition));
-            StartCoroutine(Invincibility());
-        }
+		if(!_playerAttack._shieldUp)
+		{
+        	if(!IsHit)
+        	{
+            	if (isKnockedBack) return;
+            	health -= damage;
+            	UpdateHearts();
+            	CamShakeManager.Instance.Shake(2f, 2f, 0.7f);
+            	StartCoroutine(FlashRed());
+            	StartCoroutine(Knockback(attackPosition));
+            	StartCoroutine(Invincibility());
+        	}
+		}
         if (health <= 0)
         {
             OnDead?.Invoke(this);

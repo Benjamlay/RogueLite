@@ -11,11 +11,13 @@ public class PlayerMovement : MonoBehaviour
     private bool _MoveLeft;
     private bool _MoveRight;
     
-    public bool lookingUp;
-    public bool lookingLeft;
-    public bool lookingDown;
-    public Vector2 movement;
+    // public bool lookingUp;
+    // public bool lookingLeft;
+    // public bool lookingDown;
+    public Vector2 JoystickMovement;
     private Animator _animator;
+    
+    public Vector2 moveDirection = Vector2.zero;
     
     void Start()
     {
@@ -40,7 +42,6 @@ public class PlayerMovement : MonoBehaviour
     public void MoveDown(InputAction.CallbackContext context)
     {
         _MoveDown = context.ReadValueAsButton();
-        
     }
     public void MoveLeft(InputAction.CallbackContext context)
     {
@@ -49,40 +50,27 @@ public class PlayerMovement : MonoBehaviour
     public void MoveRight(InputAction.CallbackContext context)
     {
         _MoveRight = context.ReadValueAsButton();
-        
     }
     
     private void Move()
     {
-        Vector2 moveDirection = Vector2.zero;
+        moveDirection = Vector2.zero;
         
         if(_MoveUp)
         {
             moveDirection += Vector2.up;
-            lookingUp = true;
-            lookingLeft = false;
-            lookingDown = false;
         }
         if (_MoveDown)
         {
             moveDirection += Vector2.down;
-            lookingDown = true;
-            lookingLeft = false;
-            lookingUp = false;
         }
         if (_MoveLeft)
         {
             moveDirection += Vector2.left;
-            lookingLeft = true;
-            lookingUp = false;
-            lookingDown = false;
         }
         if (_MoveRight)
         {
             moveDirection += Vector2.right;
-            lookingLeft = true;
-            lookingUp = false;
-            lookingDown = false;
         }
 
         if (moveDirection != Vector2.zero)
@@ -90,6 +78,8 @@ public class PlayerMovement : MonoBehaviour
             moveDirection = moveDirection.normalized;
             _rb.AddForce(moveDirection * (_speed * Time.deltaTime), ForceMode2D.Impulse);
         }
+        
+        _rb.AddForce(JoystickMovement * (_speed * Time.deltaTime) , ForceMode2D.Impulse);
         
         if (_rb.linearVelocity.x > 0.1)
         {
@@ -121,6 +111,6 @@ public class PlayerMovement : MonoBehaviour
 
     public void ControllerMove(InputAction.CallbackContext context)
     {
-        movement = context.ReadValue<Vector2>();
+        JoystickMovement = context.ReadValue<Vector2>();
     }
 }
